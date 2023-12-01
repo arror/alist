@@ -12,15 +12,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 
+	_ "github.com/alist-org/alist/v3/drivers"
 	"github.com/alist-org/alist/v3/internal/bootstrap"
 	"github.com/alist-org/alist/v3/internal/bootstrap/data"
 	"github.com/alist-org/alist/v3/internal/conf"
 	"github.com/alist-org/alist/v3/internal/db"
 	"github.com/alist-org/alist/v3/pkg/utils"
 	"github.com/alist-org/alist/v3/server"
-	"github.com/alist-org/alist/v3/server/common"
-
-	_ "github.com/alist-org/alist/v3/drivers"
 
 	_ "golang.org/x/mobile/bind"
 )
@@ -30,7 +28,8 @@ type Instance struct {
 }
 
 func (i *Instance) GenerateToken() (string, error) {
-	return common.GenerateToken("admin")
+	//return common.GenerateToken("admin")
+	return "", nil
 }
 
 func (i *Instance) LoadCore(dir string) (err error) {

@@ -2,6 +2,7 @@ package drivers
 
 import (
 	_ "github.com/alist-org/alist/v3/drivers/115"
+	_ "github.com/alist-org/alist/v3/drivers/115_share"
 	_ "github.com/alist-org/alist/v3/drivers/123"
 	_ "github.com/alist-org/alist/v3/drivers/123_link"
 	_ "github.com/alist-org/alist/v3/drivers/123_share"
@@ -17,6 +18,7 @@ import (
 	_ "github.com/alist-org/alist/v3/drivers/baidu_netdisk"
 	_ "github.com/alist-org/alist/v3/drivers/baidu_photo"
 	_ "github.com/alist-org/alist/v3/drivers/baidu_share"
+	_ "github.com/alist-org/alist/v3/drivers/chaoxing"
 	_ "github.com/alist-org/alist/v3/drivers/cloudreve"
 	_ "github.com/alist-org/alist/v3/drivers/crypt"
 	_ "github.com/alist-org/alist/v3/drivers/dropbox"
@@ -45,6 +47,7 @@ import (
 	_ "github.com/alist-org/alist/v3/drivers/url_tree"
 	_ "github.com/alist-org/alist/v3/drivers/uss"
 	_ "github.com/alist-org/alist/v3/drivers/virtual"
+	_ "github.com/alist-org/alist/v3/drivers/vtencent"
 	_ "github.com/alist-org/alist/v3/drivers/webdav"
 	_ "github.com/alist-org/alist/v3/drivers/weiyun"
 	_ "github.com/alist-org/alist/v3/drivers/wopan"

@@ -4,6 +4,7 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/alist-org/alist/v3/internal/errs"
 	"github.com/alist-org/alist/v3/pkg/utils"
@@ -24,6 +25,7 @@ type User struct {
 	ID       uint   `json:"id" gorm:"primaryKey"`                      // unique key
 	Username string `json:"username" gorm:"unique" binding:"required"` // username
 	PwdHash  string `json:"-"`                                         // password hash
+	PwdTS    int64  `json:"-"`                                         // password timestamp
 	Salt     string `json:"-"`                                         // unique salt
 	Password string `json:"password"`                                  // password
 	BasePath string `json:"base_path"`                                 // base path
@@ -32,7 +34,7 @@ type User struct {
 	// Determine permissions by bit
 	//   0: can see hidden files
 	//   1: can access without password
-	//   2: can add aria2 tasks
+	//   2: can add offline download tasks
 	//   3: can mkdir and upload
 	//   4: can rename
 	//   5: can move
@@ -40,7 +42,6 @@ type User struct {
 	//   7: can remove
 	//   8: webdav read
 	//   9: webdav write
-	//  10: can add qbittorrent tasks
 	Permission int32  `json:"permission"`
 	OtpSecret  string `json:"-"`
 	SsoID      string `json:"sso_id"` // unique by sso platform
@@ -72,6 +73,7 @@ func (u *User) ValidatePwdStaticHash(pwdStaticHash string) error {
 func (u *User) SetPassword(pwd string) *User {
 	u.Salt = random.String(16)
 	u.PwdHash = TwoHashPwd(pwd, u.Salt)
+	u.PwdTS = time.Now().Unix()
 	return u
 }
 
@@ -83,7 +85,7 @@ func (u *User) CanAccessWithoutPassword() bool {
 	return u.IsAdmin() || (u.Permission>>1)&1 == 1
 }
 
-func (u *User) CanAddAria2Tasks() bool {
+func (u *User) CanAddOfflineDownloadTasks() bool {
 	return u.IsAdmin() || (u.Permission>>2)&1 == 1
 }
 
@@ -113,10 +115,6 @@ func (u *User) CanWebdavRead() bool {
 
 func (u *User) CanWebdavManage() bool {
 	return u.IsAdmin() || (u.Permission>>9)&1 == 1
-}
-
-func (u *User) CanAddQbittorrentTasks() bool {
-	return u.IsAdmin() || (u.Permission>>10)&1 == 1
 }
 
 func (u *User) JoinPath(reqPath string) (string, error) {
